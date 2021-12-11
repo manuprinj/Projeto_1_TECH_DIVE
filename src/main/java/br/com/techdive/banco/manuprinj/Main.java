@@ -34,7 +34,7 @@ public class Main {
         if (tipoOperacao == 5) extrato();
         if (tipoOperacao == 6) transferencia();
         if (tipoOperacao == 7) alteracaoDados();
-        if (tipoOperacao == 8) ;
+        if (tipoOperacao == 8) Relatorios.relatorios();;
     }
 
     public static void criarConta() {
