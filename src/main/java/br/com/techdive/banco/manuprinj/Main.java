@@ -23,6 +23,7 @@ public class Main {
         System.out.println("6 - Transferência");
         System.out.println("7 - Alteração de dados pessoais");
         System.out.println("8 - Relatórios");
+        System.out.println("8 - Simulações");
         int tipoOperacao = option.nextInt();
         option.nextLine();
 
@@ -34,7 +35,8 @@ public class Main {
         if (tipoOperacao == 5) extrato();
         if (tipoOperacao == 6) transferencia();
         if (tipoOperacao == 7) alteracaoDados();
-        if (tipoOperacao == 8) Relatorios.relatorios();;
+        if (tipoOperacao == 8) Relatorios.relatorios();
+        if (tipoOperacao == 9) simulacoes();
     }
 
     public static void criarConta() {
@@ -74,7 +76,24 @@ public class Main {
         }
 
         if(tipoConta==3) {
-            ContaInvestimento conta = new ContaInvestimento(nome, cpf, numeroConta, agenciaConta, 0, rendaMensal);
+            System.out.println("Selecione o tipo de investimento: ");
+            System.out.println("1 - Tesouro Direto");
+            System.out.println("2 - Certificado de Depósito Bancário (CDB)");
+            System.out.println("3 - Letra de Crédito Imobiliário (LCI)");
+            int tipoInvestimento = option.nextInt();
+            option.nextLine();
+
+            double rentabilidade = 0;
+
+            if (tipoInvestimento == 1) {
+                rentabilidade = 0.01;
+            } else if (tipoInvestimento == 2) {
+                rentabilidade = 0.02;
+            } else if (tipoInvestimento == 3) {
+                rentabilidade = 0.03;
+            }
+
+            ContaInvestimento conta = new ContaInvestimento(nome, cpf, numeroConta, agenciaConta, 0, rendaMensal, rentabilidade);
             numeroConta++;
             contas.add(conta);
         }
@@ -129,6 +148,7 @@ public class Main {
 
     public static void extrato() {
         Conta conta = validacaoContaAgencia();
+        if (conta == null) return;
         for (Transacao extrato : conta.extrato()) {
             System.out.println(extrato);
         }
@@ -137,6 +157,36 @@ public class Main {
     public static void alteracaoDados() {
         Conta conta = validacaoContaAgencia();
         if (conta != null) conta.alterarDadosCadastrais();
+    }
+
+    public static void simulacoes() {
+        Conta conta = validacaoContaAgencia();
+        if (conta == null) return;
+        if (conta instanceof ContaPoupanca) {
+            System.out.println("Digite a quantidade de meses a ser simulada: ");
+            int meses = option.nextInt();
+            option.nextLine();
+
+            System.out.println("Digite a rentabilidade anual da poupança: ");
+            double rentabilidadeAnual = option.nextInt();
+            option.nextLine();
+
+            double simulacao = ((ContaPoupanca) conta).simulacaoInvestimento(meses, rentabilidadeAnual);
+
+            System.out.println("O valor da sua simulação é: R$ " + simulacao);
+        }
+
+        if (conta instanceof ContaCorrente) System.out.println("Não há opações de simulações para este tipo de conta");
+
+        if (conta instanceof ContaInvestimento) {
+            System.out.println("Digite a quantidade de meses a ser simulada: ");
+            int meses = option.nextInt();
+            option.nextLine();
+
+            double simulacao = ((ContaInvestimento) conta).simulacaoInvestimento(meses);
+
+            System.out.println("O valor da sua simulação é: R$ " + simulacao);
+        }
     }
 
     public static void main(String[] args) {
