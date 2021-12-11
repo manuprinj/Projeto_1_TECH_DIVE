@@ -33,7 +33,7 @@ public class Main {
         if (tipoOperacao == 4) visualizarSaldo();
         if (tipoOperacao == 5) extrato();
         if (tipoOperacao == 6) transferencia();
-        if (tipoOperacao == 7) ;
+        if (tipoOperacao == 7) alteracaoDados();
         if (tipoOperacao == 8) ;
     }
 
@@ -132,6 +132,11 @@ public class Main {
         for (Transacao extrato : conta.extrato()) {
             System.out.println(extrato);
         }
+    }
+
+    public static void alteracaoDados() {
+        Conta conta = validacaoContaAgencia();
+        if (conta != null) conta.alterarDadosCadastrais();
     }
 
     public static void main(String[] args) {

@@ -78,7 +78,43 @@ public class Conta {
     }
 
     public void alterarDadosCadastrais() {
+        System.out.println("Qual dado você deseja alterar?");
+        System.out.println("1 - Nome");
+        System.out.println("2 - Renda Mensal");
+        System.out.println("3 - Agência");
+        double opcao = sc.nextDouble();
+        sc.nextLine();
 
+        if (opcao == 1) {
+            System.out.println("Seu nome atual é: " + getNome());
+            System.out.println("Digite o novo nome: ");
+            String nomeNovo = sc.nextLine();
+
+            setNome(nomeNovo);
+            System.out.println(getNome());
+        }
+
+        if (opcao == 2) {
+            System.out.println("Sua renda atual é: " + getRendaMensal());
+            System.out.println("Digite a nova renda mensal: ");
+            double rendaMensalNova = sc.nextDouble();
+            sc.nextLine();
+
+            setRendaMensal(rendaMensalNova);
+            System.out.println(getRendaMensal());
+        }
+
+        if (opcao == 3) {
+            System.out.println("Sua agência atual é: " + getAgenciaConta());
+            System.out.println("Digite a nova agência: ");
+            System.out.println("1 -> 001 - Florianópolis");
+            System.out.println("2 -> 002 - São José");
+            int agenciaNova = sc.nextInt();
+            sc.nextLine();
+
+            setAgenciaConta(agenciaNova);
+            System.out.println(getAgenciaConta());
+        }
     }
 
     @Override
