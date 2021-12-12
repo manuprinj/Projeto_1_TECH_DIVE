@@ -1,7 +1,14 @@
 package br.com.techdive.banco.manuprinj;
 
 
+import static br.com.techdive.banco.manuprinj.util.FormatacaoFinanceira.formatar;
+
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.StringJoiner;
+import java.util.StringTokenizer;
+
+import br.com.techdive.banco.manuprinj.util.FormatacaoFinanceira;
 
 
 public class Transacao {
@@ -22,8 +29,14 @@ public class Transacao {
 
     @Override
     public String toString() {
-        return "Transacao{" + "origem=" + origem + ", destino=" + destino + ", valor=" + valor + ", data=" + data
-                + ", tipo=" + tipo + '}';
+        StringJoiner joiner = new StringJoiner(" | ")
+                .add(data.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")))
+                .add("'Origem' Agência: " + origem.getAgenciaConta() + " Conta: " + origem.getNumeroConta());
+        if (destino != null) {
+            joiner.add("'Destino' Agência: " + destino.getAgenciaConta() + " Conta: " + destino.getNumeroConta());
+        }
+        return joiner.add("Valor: " + formatar(valor))
+                .add("Transação: " + tipo).toString();
     }
 
     public Conta getOrigem() {

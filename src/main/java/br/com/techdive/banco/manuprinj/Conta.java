@@ -1,9 +1,17 @@
 package br.com.techdive.banco.manuprinj;
 
 
+import static br.com.techdive.banco.manuprinj.util.FormatacaoEntradas.getDouble;
+import static br.com.techdive.banco.manuprinj.util.FormatacaoEntradas.getInt;
+import static br.com.techdive.banco.manuprinj.util.FormatacaoEntradas.getString;
+import static br.com.techdive.banco.manuprinj.util.FormatacaoFinanceira.formatar;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import br.com.techdive.banco.manuprinj.util.FormatacaoEntradas;
+import br.com.techdive.banco.manuprinj.util.FormatacaoFinanceira;
 
 
 public class Conta {
@@ -27,11 +35,7 @@ public class Conta {
 
     Scanner sc = new Scanner(System.in);
 
-    public void saque() {
-        System.out.println("Digite o valor que você deseja sacar: ");
-        double valorSaque = sc.nextDouble();
-        sc.nextLine();
-
+    public void saque(double valorSaque) {
         if (isSaldoPermiteRetirada(valorSaque)) {
             saldo -= valorSaque;
             historico.add(new Transacao(this, null, valorSaque, TipoTransacao.SAQUE));
@@ -40,17 +44,13 @@ public class Conta {
         }
     }
 
-    public void deposito() {
-        System.out.println("Digite o valor que você deseja depositar: ");
-        double valorDeposito = sc.nextDouble();
-        sc.nextLine();
-
+    public void deposito(double valorDeposito) {
         saldo += valorDeposito;
         historico.add(new Transacao(this, null, valorDeposito, TipoTransacao.DEPOSITO));
     }
 
-    public double saldo() {
-        return saldo;
+    public String saldo() {
+        return formatar(saldo);
     }
 
     public void tranferir(Conta contaDestino, double valorTranferencia) {
@@ -66,7 +66,7 @@ public class Conta {
     }
 
     private boolean isSaldoPermiteRetirada(double valor) {
-        return valor < saldo || isChequeEspecial() && valor < saldo + rendaMensal;
+        return valor <= saldo || isChequeEspecial() && valor <= saldo + rendaMensal;
     }
 
     public boolean isChequeEspecial() {
@@ -82,13 +82,11 @@ public class Conta {
         System.out.println("1 - Nome");
         System.out.println("2 - Renda Mensal");
         System.out.println("3 - Agência");
-        double opcao = sc.nextDouble();
-        sc.nextLine();
+        int opcao = getInt();
 
         if (opcao == 1) {
             System.out.println("Seu nome atual é: " + getNome());
-            System.out.println("Digite o novo nome: ");
-            String nomeNovo = sc.nextLine();
+            String nomeNovo = getString("Digite o novo nome:");
 
             setNome(nomeNovo);
             System.out.println(getNome());
@@ -96,9 +94,7 @@ public class Conta {
 
         if (opcao == 2) {
             System.out.println("Sua renda atual é: " + getRendaMensal());
-            System.out.println("Digite a nova renda mensal: ");
-            double rendaMensalNova = sc.nextDouble();
-            sc.nextLine();
+            double rendaMensalNova = getDouble("Digite a nova renda mensal: ");
 
             setRendaMensal(rendaMensalNova);
             System.out.println(getRendaMensal());
@@ -109,8 +105,7 @@ public class Conta {
             System.out.println("Digite a nova agência: ");
             System.out.println("1 -> 001 - Florianópolis");
             System.out.println("2 -> 002 - São José");
-            int agenciaNova = sc.nextInt();
-            sc.nextLine();
+            int agenciaNova = getInt();
 
             setAgenciaConta(agenciaNova);
             System.out.println(getAgenciaConta());

@@ -1,9 +1,19 @@
 package br.com.techdive.banco.manuprinj;
 
 
+import static br.com.techdive.banco.manuprinj.util.FormatacaoEntradas.getCPF;
+import static br.com.techdive.banco.manuprinj.util.FormatacaoEntradas.getDouble;
+import static br.com.techdive.banco.manuprinj.util.FormatacaoEntradas.getInt;
+import static br.com.techdive.banco.manuprinj.util.FormatacaoEntradas.getString;
+import static br.com.techdive.banco.manuprinj.util.FormatacaoFinanceira.formatar;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import br.com.techdive.banco.manuprinj.util.FormatacaoEntradas;
+import br.com.techdive.banco.manuprinj.util.FormatacaoFinanceira;
+import br.com.techdive.banco.manuprinj.util.ValidacaoCPF;
 
 
 public class Main {
@@ -23,11 +33,10 @@ public class Main {
         System.out.println("6 - Transferência");
         System.out.println("7 - Alteração de dados pessoais");
         System.out.println("8 - Relatórios");
-        System.out.println("8 - Simulações");
-        int tipoOperacao = option.nextInt();
-        option.nextLine();
+        System.out.println("9 - Simulações");
+        int tipoOperacao = getInt();
 
-        if (tipoOperacao < 1 || tipoOperacao > 7) System.out.println("Digite uma opção válida!!");
+        if (tipoOperacao < 1 || tipoOperacao > 9) System.out.println("Digite uma opção válida!!");
         if (tipoOperacao == 1) criarConta();
         if (tipoOperacao == 2) saque();
         if (tipoOperacao == 3) deposito();
@@ -44,28 +53,18 @@ public class Main {
         System.out.println("1 - Conta Poupança");
         System.out.println("2 - Conta Corrente");
         System.out.println("3 - Conta Investimento");
-        int tipoConta = option.nextInt();
-        option.nextLine();
+        int tipoConta = getInt();
 
-        System.out.println("Digite seu nome: ");
-        String nome = option.nextLine();
+        String nome = getString("Digite seu nome:");
 
-        System.out.println("Digite seu CPF: ");
-        String cpf = option.nextLine();
-        if (!ValidacaoCPF.isCPFValido(cpf)) {
-            System.out.println("CPF Inválido");
-            return;
-        }
+        String cpf = getCPF("Digite seu CPF:");
 
-        System.out.println("Digite sua renda mensal: ");
-        double rendaMensal = option.nextDouble();
-        option.nextLine();
+        double rendaMensal = getDouble("Digite sua renda mensal: ");
 
         System.out.println("Selecione uma das agências abaixo: ");
         System.out.println("1 -> 001 - Florianópolis");
         System.out.println("2 -> 002 - São José");
-        int agenciaConta = option.nextInt();
-        option.nextLine();
+        int agenciaConta = getInt();
 
         if(tipoConta==1) {
             ContaPoupanca conta = new ContaPoupanca(nome, cpf, numeroConta, agenciaConta, 0, rendaMensal);
@@ -84,8 +83,7 @@ public class Main {
             System.out.println("1 - Tesouro Direto");
             System.out.println("2 - Certificado de Depósito Bancário (CDB)");
             System.out.println("3 - Letra de Crédito Imobiliário (LCI)");
-            int tipoInvestimento = option.nextInt();
-            option.nextLine();
+            int tipoInvestimento = getInt();
 
             double rentabilidade = 0;
 
@@ -104,12 +102,11 @@ public class Main {
     }
 
     public static Conta validacaoContaAgencia() {
-        System.out.println("Digite o número da agência (1 -> 001 - Florianópolis ou 2 ->  002 - São José: ");
-        int numAgencia = option.nextInt();
-        option.nextLine();
-        System.out.println("Digite o número da conta ");
-        int numConta = option.nextInt();
-        option.nextLine();
+        System.out.println("Digite o número da agência: ");
+        System.out.println("1 -> 001 - Florianópolis ou 2 ->  002 - São José: ");
+        int numAgencia = getInt();
+        System.out.println("Digite o número da conta: ");
+        int numConta = getInt();
 
         for (Conta conta : contas) {
             if(conta.getNumeroConta() == numConta && conta.getAgenciaConta() == numAgencia) return conta;
@@ -121,17 +118,21 @@ public class Main {
 
     public static void saque() {
         Conta conta = validacaoContaAgencia();
-        if (conta != null) conta.saque();
+        if (conta == null) return;
+        double valorSaque = getDouble("Digite o valor que você deseja sacar: ");
+        conta.saque(valorSaque);
     }
 
     public static void deposito() {
         Conta conta = validacaoContaAgencia();
-        if (conta != null) conta.deposito();
+        if (conta == null) return;
+        double valorDeposito = getDouble("Digite o valor que você deseja depositar:");
+        conta.deposito(valorDeposito);
     }
 
     public static void visualizarSaldo() {
         Conta conta = validacaoContaAgencia();
-        if (conta != null) System.out.println("Se saldo é de: RS " + conta.saldo());
+        if (conta != null) System.out.println("Seu saldo é de: " + conta.saldo());
     }
 
     public static void transferencia() {
@@ -143,9 +144,11 @@ public class Main {
         Conta contaDestino = validacaoContaAgencia();
         if (contaDestino == null) return;
 
-        System.out.println("Digite o valor que você deseja transferir: ");
-        double valorTranferencia = option.nextDouble();
-        option.nextLine();
+        double valorTranferencia = getDouble("Digite o valor que você deseja transferir: ");
+        if (contaDestino.equals(contaOrigem)) {
+            System.out.println("Conta de Origem não pode ser igual a Conta de Destino");
+            return;
+        }
 
         contaOrigem.tranferir(contaDestino, valorTranferencia);
     }
@@ -168,28 +171,25 @@ public class Main {
         if (conta == null) return;
         if (conta instanceof ContaPoupanca) {
             System.out.println("Digite a quantidade de meses a ser simulada: ");
-            int meses = option.nextInt();
-            option.nextLine();
+            int meses = getInt();
 
             System.out.println("Digite a rentabilidade anual da poupança: ");
-            double rentabilidadeAnual = option.nextInt();
-            option.nextLine();
+            double rentabilidadeAnual = getInt();
 
             double simulacao = ((ContaPoupanca) conta).simulacaoInvestimento(meses, rentabilidadeAnual);
 
-            System.out.println("O valor da sua simulação é: R$ " + simulacao);
+            System.out.println("O valor da sua simulação é: " + formatar(simulacao));
         }
 
-        if (conta instanceof ContaCorrente) System.out.println("Não há opações de simulações para este tipo de conta");
+        if (conta instanceof ContaCorrente) System.out.println("Não há opções de simulações para este tipo de conta!");
 
         if (conta instanceof ContaInvestimento) {
             System.out.println("Digite a quantidade de meses a ser simulada: ");
-            int meses = option.nextInt();
-            option.nextLine();
+            int meses = getInt();
 
             double simulacao = ((ContaInvestimento) conta).simulacaoInvestimento(meses);
 
-            System.out.println("O valor da sua simulação é: R$ " + simulacao);
+            System.out.println("O valor da sua simulação é: " + formatar(simulacao));
         }
     }
 

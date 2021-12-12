@@ -8,7 +8,7 @@ public class ContaPoupanca extends Conta {
     }
 
     public double simulacaoInvestimento(int meses, double rentabilidadeAnual) {
-        double simulacao = saldo();
+        double simulacao = getSaldo();
         double rentabilidadeMensal = Math.pow(1+rentabilidadeAnual, 1.0/12);
         for (int i = 0; i < meses; i++) {
             simulacao *= rentabilidadeMensal;

@@ -14,7 +14,7 @@ public class ContaInvestimento extends Conta {
     public double simulacaoInvestimento(int meses) {
         double rentabilidadeMensal = Math.pow(1+rentabilidadeAnual, 1.0/12);
 
-        double simulacao = saldo();
+        double simulacao = getSaldo();
         for (int i = 0; i < meses; i++) {
             simulacao *= rentabilidadeMensal;
         }

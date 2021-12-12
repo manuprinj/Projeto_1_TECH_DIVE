@@ -1,7 +1,13 @@
 package br.com.techdive.banco.manuprinj;
 
 
+import static br.com.techdive.banco.manuprinj.util.FormatacaoEntradas.getCPF;
+import static br.com.techdive.banco.manuprinj.util.FormatacaoEntradas.getInt;
+import static br.com.techdive.banco.manuprinj.util.FormatacaoFinanceira.formatar;
+
 import java.util.Scanner;
+
+import br.com.techdive.banco.manuprinj.util.FormatacaoFinanceira;
 
 
 public class Relatorios {
@@ -14,8 +20,7 @@ public class Relatorios {
         System.out.println("2 - Contas com saldo negativo");
         System.out.println("3 - Total do valor investido");
         System.out.println("4 - Todas as transações de um cliente");
-        int tipoOperacao = option.nextInt();
-        option.nextLine();
+        int tipoOperacao = getInt();
 
         if (tipoOperacao < 1 || tipoOperacao > 4) System.out.println("Digite uma opção válida!!");
         if (tipoOperacao == 1) menuListarTodasContas();
@@ -29,8 +34,7 @@ public class Relatorios {
         System.out.println("1 - Contas Poupança");
         System.out.println("2 - Contas Corrente");
         System.out.println("3 - Contas Investimento");
-        int tipoOperacao = option.nextInt();
-        option.nextLine();
+        int tipoOperacao = getInt();
 
         if (tipoOperacao < 1 || tipoOperacao > 3) System.out.println("Digite uma opção válida!!");
 
@@ -47,7 +51,7 @@ public class Relatorios {
 
     public static void contasSaldoNegativo() {
         for (Conta conta : Main.contas) {
-            if(conta.saldo() < 0) {
+            if (conta.getSaldo() < 0) {
                 System.out.println(conta);
             }
         }
@@ -57,15 +61,14 @@ public class Relatorios {
         double total = 0;
         for (Conta conta : Main.contas) {
             if (conta instanceof ContaInvestimento) {
-                total += conta.saldo();
+                total += conta.getSaldo();
             }
         }
-        System.out.println("O valor total investido é: R$ " + total);
+        System.out.println("O valor total investido é: " + formatar(total));
     }
 
     public static void todasTransacoesCliente() {
-        System.out.println("Digite o CPF do cliente: ");
-        String cpf = option.nextLine();
+        String cpf = getCPF("Digite o CPF do cliente:");
 
         for (Conta conta : Main.contas) {
             if (conta.getCpf().equals(cpf)) {
