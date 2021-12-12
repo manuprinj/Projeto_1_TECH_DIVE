@@ -28,4 +28,9 @@ public class ContaInvestimento extends Conta {
     public void setRentabilidadeAnual(double rentabilidadeAnual) {
         this.rentabilidadeAnual = rentabilidadeAnual;
     }
+
+    @Override
+    public String getTipo() {
+        return "Conta Investimento";
+    }
 }

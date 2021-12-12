@@ -7,8 +7,6 @@ import static br.com.techdive.banco.manuprinj.util.FormatacaoFinanceira.formatar
 
 import java.util.Scanner;
 
-import br.com.techdive.banco.manuprinj.util.FormatacaoFinanceira;
-
 
 public class Relatorios {
 

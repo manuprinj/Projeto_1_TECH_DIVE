@@ -17,4 +17,9 @@ public class ContaCorrente extends Conta {
         return true;
     }
 
+    @Override
+    public String getTipo() {
+        return "Conta Corrente";
+    }
+
 }

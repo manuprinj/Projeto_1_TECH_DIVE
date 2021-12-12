@@ -7,6 +7,11 @@ public class ContaPoupanca extends Conta {
         super(nome, cpf, numeroConta, agenciaConta, saldo, rendaMensal);
     }
 
+    @Override
+    public String getTipo() {
+        return "Conta Poupança";
+    }
+
     public double simulacaoInvestimento(int meses, double rentabilidadeAnual) {
         double simulacao = getSaldo();
         double rentabilidadeMensal = Math.pow(1+rentabilidadeAnual, 1.0/12);

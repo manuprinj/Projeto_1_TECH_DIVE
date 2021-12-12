@@ -6,9 +6,6 @@ import static br.com.techdive.banco.manuprinj.util.FormatacaoFinanceira.formatar
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.StringJoiner;
-import java.util.StringTokenizer;
-
-import br.com.techdive.banco.manuprinj.util.FormatacaoFinanceira;
 
 
 public class Transacao {

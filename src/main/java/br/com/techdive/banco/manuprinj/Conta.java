@@ -6,15 +6,17 @@ import static br.com.techdive.banco.manuprinj.util.FormatacaoEntradas.getInt;
 import static br.com.techdive.banco.manuprinj.util.FormatacaoEntradas.getString;
 import static br.com.techdive.banco.manuprinj.util.FormatacaoFinanceira.formatar;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.StringJoiner;
 
 import br.com.techdive.banco.manuprinj.util.FormatacaoEntradas;
 import br.com.techdive.banco.manuprinj.util.FormatacaoFinanceira;
 
 
-public class Conta {
+public abstract class Conta {
 
     private String nome;
     private String cpf;
@@ -114,9 +116,16 @@ public class Conta {
 
     @Override
     public String toString() {
-        return "Conta{" + "nome='" + nome + '\'' + ", cpf='" + cpf + '\'' + ", numeroConta=" + numeroConta
-                + ", agenciaConta=" + agenciaConta + ", saldo=" + saldo + ", rendaMensal=" + rendaMensal + '}';
+        StringJoiner joiner = new StringJoiner(" | ")
+                .add(getTipo())
+                .add(("Nome: " + getNome()))
+                .add(("CPF: " + getCpf()))
+                .add("Agência: " + getAgenciaConta() + " Conta: " + getNumeroConta());
+
+        return joiner.toString();
     }
+
+    public abstract String getTipo();
 
     public String getNome() {
         return nome;
