@@ -42,4 +42,8 @@ public class ValidacaoCPF {
 
         return digitoVerficador1 == (cpf.charAt(9) - 48) && digitoVerficador2 == (cpf.charAt(10) - 48);
     }
+
+    public static String getMascaraCPF(String cpf) {
+        return cpf.substring(0, 3) + "." + cpf.substring(3, 6) + "." + cpf.substring(6, 9) + "-" + cpf.substring(9);
+    }
 }

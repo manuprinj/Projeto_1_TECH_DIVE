@@ -11,10 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import br.com.techdive.banco.manuprinj.util.FormatacaoEntradas;
-import br.com.techdive.banco.manuprinj.util.FormatacaoFinanceira;
-import br.com.techdive.banco.manuprinj.util.ValidacaoCPF;
-
 
 public class Main {
 

@@ -1,4 +1,4 @@
-package br.com.techdive.banco.manuprinj;
+package br.com.techdive.banco.manuprinj.tipos;
 
 
 public enum TipoTransacao {

@@ -5,15 +5,14 @@ import static br.com.techdive.banco.manuprinj.util.FormatacaoEntradas.getDouble;
 import static br.com.techdive.banco.manuprinj.util.FormatacaoEntradas.getInt;
 import static br.com.techdive.banco.manuprinj.util.FormatacaoEntradas.getString;
 import static br.com.techdive.banco.manuprinj.util.FormatacaoFinanceira.formatar;
+import static br.com.techdive.banco.manuprinj.util.ValidacaoCPF.getMascaraCPF;
 
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.StringJoiner;
 
-import br.com.techdive.banco.manuprinj.util.FormatacaoEntradas;
-import br.com.techdive.banco.manuprinj.util.FormatacaoFinanceira;
+import br.com.techdive.banco.manuprinj.tipos.TipoTransacao;
 
 
 public abstract class Conta {
@@ -118,8 +117,8 @@ public abstract class Conta {
     public String toString() {
         StringJoiner joiner = new StringJoiner(" | ")
                 .add(getTipo())
-                .add(("Nome: " + getNome()))
-                .add(("CPF: " + getCpf()))
+                .add("Nome: " + getNome())
+                .add("CPF: " + getMascaraCPF(getCpf()))
                 .add("Agência: " + getAgenciaConta() + " Conta: " + getNumeroConta());
 
         return joiner.toString();

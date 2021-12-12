@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.StringJoiner;
 
+import br.com.techdive.banco.manuprinj.tipos.TipoTransacao;
+
 
 public class Transacao {
 
