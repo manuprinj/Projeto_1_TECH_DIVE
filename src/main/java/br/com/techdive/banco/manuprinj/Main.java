@@ -52,6 +52,10 @@ public class Main {
 
         System.out.println("Digite seu CPF: ");
         String cpf = option.nextLine();
+        if (!ValidacaoCPF.isCPFValido(cpf)) {
+            System.out.println("CPF Inválido");
+            return;
+        }
 
         System.out.println("Digite sua renda mensal: ");
         double rendaMensal = option.nextDouble();
@@ -86,11 +90,11 @@ public class Main {
             double rentabilidade = 0;
 
             if (tipoInvestimento == 1) {
-                rentabilidade = 0.01;
+                rentabilidade = 0.07;
             } else if (tipoInvestimento == 2) {
-                rentabilidade = 0.02;
+                rentabilidade = 0.08;
             } else if (tipoInvestimento == 3) {
-                rentabilidade = 0.03;
+                rentabilidade = 0.09;
             }
 
             ContaInvestimento conta = new ContaInvestimento(nome, cpf, numeroConta, agenciaConta, 0, rendaMensal, rentabilidade);
